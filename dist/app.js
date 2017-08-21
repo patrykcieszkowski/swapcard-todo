@@ -1,23 +1,43 @@
 'use strict';
 
-var http = require('http');
-var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
+var _http = require('http');
 
-var config = require('./config');
-var routes = require('./routes');
+var _http2 = _interopRequireDefault(_http);
 
-// mongoose.connect(process.env.MONGO_URI)
+var _express = require('express');
 
-var app = express();
-var server = http.createServer(app);
+var _express2 = _interopRequireDefault(_express);
 
-app.use(bodyParser.urlencoded());
-app.use(bodyParser.json());
+var _mongoose = require('mongoose');
 
-app.use('/', routes.main);
+var _mongoose2 = _interopRequireDefault(_mongoose);
 
-server.listen(process.env.PORT, function () {
-  console.log('PORT: ' + process.env.PORT);
+var _bodyParser = require('body-parser');
+
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
+var _config = require('./config');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _routes = require('./routes');
+
+var _routes2 = _interopRequireDefault(_routes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_mongoose2.default.connect(process.env.MONGO_URI, { useMongoClient: true });
+
+var app = (0, _express2.default)();
+var server = _http2.default.createServer(app);
+
+app.use(_bodyParser2.default.urlencoded());
+app.use(_bodyParser2.default.json());
+
+app.use('/auth', _routes2.default.auth);
+app.use('/task', _routes2.default.task);
+app.use('/group', _routes2.default.group);
+
+server.listen(_config2.default.PORT, function () {
+  console.log('PORT: ' + _config2.default.PORT);
 });
